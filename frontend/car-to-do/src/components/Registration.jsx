@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button } from '@mui/material'
-
+import axios from 'axios';
 
 class Registration extends React.Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class Registration extends React.Component {
             username: this.state.username,
             password: this.state.password
         }
-        const response = await axios.post('https://localhost:8080/register.php', content)
+        const response = await axios.post('http://localhost:8080/register.php', content)
         console.log(response)
     }
 
@@ -63,7 +63,7 @@ class Registration extends React.Component {
                             <Grid item xs={12} sm={12} md={12}>
                                 <Grid container justifyContent="center" >
                                     <Grid item>
-                                        <Button variant="contained" color="success" size="large"  >Sign up</Button>
+                                        <Button variant="contained" color="success" size="large"  onClick={this.postData.bind(this)}>Sign up</Button>
                                     </Grid>  
                                 </Grid>
                             </Grid>
