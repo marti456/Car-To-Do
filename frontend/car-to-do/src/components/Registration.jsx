@@ -3,6 +3,30 @@ import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button } fr
 
 
 class Registration extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            username: '',
+            password: '',
+            confirmPass: ''
+        }
+    }
+    
+    handleChange = input => e => {
+        this.setState({[input]: e.target.value});
+        console.log(this.state)
+    }
+
+    async postData() {
+        const content = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        const response = await axios.post('https://localhost:8080/register.php', content)
+        console.log(response)
+    }
+
     render() {
         return (
             <>
@@ -19,18 +43,21 @@ class Registration extends React.Component {
                                 <TextField
                                     fullWidth
                                     label="Username"
+                                    onChange={this.handleChange('username')}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12}>
                                 <TextField
                                     fullWidth
                                     label="Password"
+                                    onChange={this.handleChange('password')}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12}>
                                 <TextField
                                     fullWidth
                                     label="Confirm password"
+                                    onChange={this.handleChange('confirmPass')}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12}>
