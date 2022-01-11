@@ -3,10 +3,6 @@ import React from "react";
 import { CssBaseline, AppBar, Toolbar, Typography, Grid, Button} from "@mui/material";
 
 class Bar extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
     renderButtons = () => {
         if (this.props.isLogged === false) {
             return <Grid item >

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button, Alert } from '@mui/material'
+import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button} from '@mui/material'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import Allerts from "./Allerts";
 
 const Registration = (props) => {
     const [username, setUsername] = useState('')
@@ -25,8 +26,6 @@ const Registration = (props) => {
 
 
     const postData = async () => {
-        props.makeLogIn(username)
-        navigate('/')
         if (username === '' || password === '' || confirmPass === '') {
             setAlert('noAllData')
         }
@@ -48,23 +47,7 @@ const Registration = (props) => {
         }
     }
 
-    const renderAlert = () => {
-        if (alert === 'noAllData') {
-            return <Alert severity="error" variant="filled">
-                    The form must be completed!
-                </Alert>
-        }
-        else if (alert === 'shortPass') {
-            return <Alert severity="error" variant="filled">
-                    Password must be 8 or more charecters!
-                </Alert>
-        }
-        else if (alert === 'notConfirm') {
-            return <Alert severity="error" variant="filled">
-                    Password not confirmed!
-                </Alert>
-        }
-    }
+    
 
     return (
         <>
@@ -78,7 +61,7 @@ const Registration = (props) => {
                     <br />
                     <Grid container spacing={3} justify="center">
                         <Grid item xs={12} sm={12} md={12}>
-                            {renderAlert}
+                            <Allerts alert={alert} />
                         </Grid>
                         <Grid item xs={12} sm={12} md={12}>
                             <TextField
