@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button } from '@mui/material'
+import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button, Alert } from '@mui/material'
 import axios from 'axios';
 
 class Registration extends React.Component {
@@ -9,7 +9,8 @@ class Registration extends React.Component {
         this.state = {
             username: '',
             password: '',
-            confirmPass: ''
+            confirmPass: '',
+            alert: ''
         }
     }
     
@@ -19,12 +20,41 @@ class Registration extends React.Component {
     }
 
     async postData() {
-        const content = {
-            username: this.state.username,
-            password: this.state.password
+        if (this.state.username === '' || this.state.password === '' || this.state.confirmPass === '') {
+            this.setState({alert: 'noAllData'})
         }
-        const response = await axios.post('http://localhost:8080/register.php', content)
-        console.log(response)
+        else if (this.state.password.length < 8) {
+            this.setState({alert: 'shortPass'})
+        }
+        else if( this.state.password !== this.state.confirmPass) {
+            this.setState({alert: 'notConfirm'})
+        }
+        else {
+            const content = {
+                username: this.state.username,
+                password: this.state.password
+            }
+            const response = await axios.post('http://localhost:8080/Car-To-Do/register.php', content)
+            console.log(response)
+        }
+    }
+
+    renderAlert = () => {
+        if (this.state.alert === 'noAllData') {
+            return <Alert severity="error" variant="filled">
+                    The form must be completed!
+                </Alert>
+        }
+        else if (this.state.alert === 'shortPass') {
+            return <Alert severity="error" variant="filled">
+                    Password must be 8 or more charecters!
+                </Alert>
+        }
+        else if (this.state.alert === 'notConfirm') {
+            return <Alert severity="error" variant="filled">
+                    Password not confirmed!
+                </Alert>
+        }
     }
 
     render() {
@@ -40,6 +70,9 @@ class Registration extends React.Component {
                         <br />
                         <Grid container spacing={3} justify="center">
                             <Grid item xs={12} sm={12} md={12}>
+                                {this.renderAlert()}
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12}>
                                 <TextField
                                     fullWidth
                                     label="Username"
@@ -51,6 +84,7 @@ class Registration extends React.Component {
                                     fullWidth
                                     label="Password"
                                     onChange={this.handleChange('password')}
+                                    type="password"
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12}>
@@ -58,6 +92,7 @@ class Registration extends React.Component {
                                     fullWidth
                                     label="Confirm password"
                                     onChange={this.handleChange('confirmPass')}
+                                    type="password"
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12}>
