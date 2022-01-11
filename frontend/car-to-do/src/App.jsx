@@ -5,22 +5,41 @@ import Bar from "./components/Bar";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 
-const App = () => {
-  return (
-    <>
-      <Router>
-      <CssBaseline />
-        <Bar />
-        <Routes>
-          <Route path='/registration' element={<Registration />}/>
-          <Route path='/login' element={<Login />}/>
-        </Routes>
-        
-      </Router>
-      
-    </>
+class App extends React.Component {
+  constructor(props) {
+    super(props)
 
-  );
+    this.state = {
+        username: '',
+        isLogged: false
+    }
+  }
+
+  makeLogIn = (newUsename) => {
+    this.setState({isLogged: true})
+    this.setState({username: newUsename})
+  }
+
+  makeLogOut = () => {
+    this.setState({isLogged: false})
+    this.setState({username: ''})
+    window.location.href='/';
+  }
+
+  render() { 
+    return (
+      <>
+        <Router>
+          <CssBaseline />
+          <Bar isLogged={this.state.isLogged} username={this.state.username} makeLogOut={this.makeLogOut} />
+          <Routes>
+            <Route path='/registration' element={<Registration makeLogIn={this.makeLogIn}/>}/>
+            <Route path='/login' element={<Login />}/>
+          </Routes>  
+        </Router>
+      </>
+    );
+  }
 }
 
 export default App;
