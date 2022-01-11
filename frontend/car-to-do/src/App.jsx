@@ -34,7 +34,7 @@ class App extends React.Component {
           <Bar isLogged={this.state.isLogged} username={this.state.username} makeLogOut={this.makeLogOut} />
           <Routes>
             <Route path='/registration' element={<Registration makeLogIn={this.makeLogIn}/>}/>
-            <Route path='/login' element={<Login />}/>
+            <Route path='/login' element={<Login makeLogIn={this.makeLogIn}/>}/>
           </Routes>  
         </Router>
       </>
