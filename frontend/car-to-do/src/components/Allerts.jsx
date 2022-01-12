@@ -22,9 +22,9 @@ class Allerts extends React.Component {
                     Username already exists!
                 </Alert>
         }
-        else if (this.props.alert === 'unsuccessfulReg') {
+        else if (this.props.alert === 'unsuccessfulLogin') {
             return <Alert severity="error" variant="filled">
-                    Wrong username/password combination!
+                    Wrong username/password!
                 </Alert>
         }
     }

@@ -32,9 +32,13 @@ const Login = (props) => {
                 password: password
             }
             const response = await axios.post('http://localhost:8080/Car-To-Do/login.php', content)
-            console.log(response)
-            props.makeLogIn(username)
-            navigate('/')
+            if (response.data === 'Wrong username/password') {
+                setAlert('unsuccessfulLogin')
+            }
+            else {
+                props.makeLogIn(username)
+                navigate('/')
+            }
         }
     }
 
