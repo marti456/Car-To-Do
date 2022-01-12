@@ -9,7 +9,6 @@ const Registration = (props) => {
     const [password, setPassword] = useState('')
     const [confirmPass, setConfirmPass] = useState('')
     const [alert, setAlert] = useState('')
-    const [responseData, setResponseData] = useState('')
 
     const navigate = useNavigate();
 
@@ -24,8 +23,6 @@ const Registration = (props) => {
     const handleChangeConfirmPass = (event) => {
         setConfirmPass(event.target.value)
     }
-
-
 
 
     const postData = async () => {
@@ -43,10 +40,14 @@ const Registration = (props) => {
                 username: username,
                 password: password
             }
-            await axios.post('http://localhost:8080/Car-To-Do/register.php', content).then(response => setResponseData(response.data))
-            console.log(responseData)
-            props.makeLogIn(username)
-            navigate('/')
+            const response = await axios.post('http://localhost:8080/Car-To-Do/register.php', content)
+            if (response.data === 'Username already exists') {
+                setAlert('unsuccessfulReg')
+            }
+            else {
+                props.makeLogIn(username)
+                navigate('/')
+            }
         }
     }
 
