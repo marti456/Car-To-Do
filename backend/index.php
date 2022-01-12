@@ -1,6 +1,8 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
+$rest_json = file_get_contents("php://input");
+$_POST = json_decode($rest_json, true);
 
 $servername = "localhost";
 $username = "root";
@@ -25,7 +27,6 @@ $resultSet = mysqli_query($db, $sqlQuery) or die("database error:". mysqli_error
 $sqlQuery = "CREATE TABLE IF NOT EXISTS`users` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
 )";
 $resultSet = mysqli_query($db, $sqlQuery) or die("database error:". mysqli_error($db));

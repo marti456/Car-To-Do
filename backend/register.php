@@ -9,24 +9,15 @@ $_POST = json_decode($rest_json, true);
 
 // initializing variables
 $username = "";
-$email    = "";
 $errors = array(); 
 
 // connect to the database
 $db = mysqli_connect('localhost', 'root', '', 'DB');
 
 // REGISTER USER
-echo $_SERVER['REQUEST_METHOD'];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  echo "In IF";
   // receive all input values from the form
-  //$username = isset($_POST['username'])?json_decode($_POST['username']):null; 
-  //$password_1 =isset($_POST['password'])?json_decode($_POST['password']):null; 
-  //$usernm = $_POST['username']
   $username = mysqli_real_escape_string($db, $_POST["username"]);
-  //$email = mysqli_real_escape_string($db, $_POST['email']);
-  //$password = $_POST['password']
   $password_1 = mysqli_real_escape_string($db, $_POST['password']);
 
   // form validation: ensure that the form is correctly filled ...
@@ -35,39 +26,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   //if (empty($email)) { array_push($errors, "Email is required"); }
   if (empty($password_1)) { array_push($errors, "Password is required"); }
   //if ($password_1 != $password_2) {
-	//array_push($errors, "The two passwords do not match");
+  //array_push($errors, "The two passwords do not match");
   //}
+
+ if (count($errors) > 0){
+    foreach ($errors as $error) {
+      echo $error . "\n";
+    }
+  }
 
   // first check the database to make sure 
   // a user does not already exist with the same username and/or email
-  $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
+  $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
   $result = mysqli_query($db, $user_check_query);
   $user = mysqli_fetch_assoc($result);
   
   
-  echo "Check if exists $errors ";
+ 
 
 
   if ($user) { // if user exists
     if ($user['username'] === $username) {
       array_push($errors, "Username already exists");
     }
+    echo "Username already exists";
   }
 
   // Finally, register user if there are no errors in the form
-  echo "Before adding $errors";
-  if (count($errors) == 0) {
-  	$password = md5($password_1);//encrypt the password before saving in the database
+  else if (count($errors) == 0) {
+    $password = md5($password_1);//encrypt the password before saving in the database
 
-  	$query = "INSERT INTO users (username, email, password) 
-  			  VALUES('$username', '$email', '$password')";
-  	mysqli_query($db, $query);
-  	$_SESSION['username'] = $username;
-  	$_SESSION['success'] = "You are now logged in";
-  	header('location: index.php');
+    $query = "INSERT INTO users (username, password) 
+          VALUES('$username', '$password')";
+    mysqli_query($db, $query);
+    $_SESSION['username'] = $username;
+    $_SESSION['success'] = "You are now logged in";
+    //header('location: index.php');
 
     echo "Added new user";
   }
-}
 
+  else {
+    echo "Error";
+  }
+}
+  
 ?>
