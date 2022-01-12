@@ -17,6 +17,16 @@ class Allerts extends React.Component {
                     Password not confirmed!
                 </Alert>
         }
+        else if (this.props.alert === 'unsuccessfulReg') {
+            return <Alert severity="error" variant="filled">
+                    Username already exists!
+                </Alert>
+        }
+        else if (this.props.alert === 'unsuccessfulReg') {
+            return <Alert severity="error" variant="filled">
+                    Wrong username/password combination!
+                </Alert>
+        }
     }
     
     render() {
