@@ -1,13 +1,23 @@
 import { Grid, Button, Modal } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react"
+import axios from 'axios';
 import ActivityForm from './ActivityForm';
 
 const Activities = (props) => {
     
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
+    const [types, setTypes] = useState(null)
+    const handleOpen = async () => {
+        await getTypes()
+        setOpen(true) 
+    } 
     const handleClose = () => setOpen(false);
+
+    const getTypes = async () => {
+        const response = await axios.get('http://localhost:8080/Car-To-Do/getTypes.php')
+        setTypes(response.data)
+    }
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -28,7 +38,7 @@ const Activities = (props) => {
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <ActivityForm handleClose={handleClose}/>
+                        <ActivityForm handleClose={handleClose} types={types} username={props.username}/>
                     </Modal>
                 </Grid>
             </Grid>

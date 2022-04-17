@@ -3,10 +3,11 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from "react"
+import React, { useState } from "react"
+import axios from 'axios';
 import Allerts from "./Allerts";
 
-const ActivityForm = (props) => {
+const ActivityForm = React.forwardRef((props, ref) => {
 
     const [name, setName] = useState('')
     const [description, setDescriptio] = useState('')
@@ -26,9 +27,26 @@ const ActivityForm = (props) => {
         setType(event.target.value)
     }
 
-
-    const addActivity = () => {
-
+    const addActivity = async () => {
+        if (name === '' || description === '' || type === '') {
+            setAlert('The form must be completed!')
+        }
+        else {
+            const content = {
+                username: props.username,
+                activity_name: name,
+                description: description,
+                type: type,
+                end_time: endTime.getTime() / 1000
+            }
+            const response = await axios.post('http://localhost:8080/Car-To-Do/createActivity.php', content)
+            if (response.data === "This type of activity doesn't exist") {
+                setAlert(response.data)
+            }
+            else {
+                props.handleClose()
+            }
+        }
     }
 
     return (
@@ -83,9 +101,9 @@ const ActivityForm = (props) => {
                                     label="Type"
                                     onChange={handleChangeType}
                                 >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    { 
+                                        props.types.map(el => <MenuItem value={el["type_name"]} key={el["id"]} >{el["type_name"]}</MenuItem>) 
+                                    }
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -111,6 +129,6 @@ const ActivityForm = (props) => {
             </Container>
         </>
     );
-} 
+}) 
 
 export default ActivityForm;
