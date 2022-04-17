@@ -4,7 +4,7 @@ session_start();
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 $rest_json = file_get_contents("php://input");
-$_GET = json_decode($rest_json, true);
+$_POST = json_decode($rest_json, true);
 
 
 // initializing variables
@@ -14,7 +14,7 @@ $errors = array();
 $db = mysqli_connect('localhost', 'root', '', 'DB');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $username = $_GET["username"];
+    $username = mysqli_real_escape_string($db, $_POST["username"]);
     $user_id_query = "SELECT id FROM users WHERE username = '$username' LIMIT 1";
     $user_id_result = mysqli_query($db, $user_id_query);
     $user_id = mysqli_fetch_array($user_id_result)['id'];
