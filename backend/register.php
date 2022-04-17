@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
   $result = mysqli_query($db, $user_check_query);
   $user = mysqli_fetch_assoc($result);
-
   if ($user) { // if user exists
     if ($user['username'] === $username) {
       array_push($errors, "Username already exists");
@@ -52,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     echo "Added new user";
   }
-
   else {
     echo "Error";
   }
