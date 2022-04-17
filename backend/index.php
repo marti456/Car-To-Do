@@ -33,7 +33,7 @@ $resultSet = mysqli_query($db, $sqlQuery) or die("database error:". mysqli_error
 
 $sqlQuery = "CREATE TABLE IF NOT EXISTS `types` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `type_name` varchar(100) NOT NULL
+  `type_name` varchar(100) NOT NULL UNIQUE
 )";
 $resultSet = mysqli_query($db, $sqlQuery) or die("database error:". mysqli_error($db));
 

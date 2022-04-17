@@ -43,25 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         VALUES('$username_id', '$activity_name', '$description', '$type_id', FROM_UNIXTIME('$endTime'))";
         mysqli_query($db, $query);
     }
-
-    // `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    // `user_id` int(11) FOREIGN KEY REFERENCES users(id),
-    // `name` varchar(100) NOT NULL,
-    // `description` varchar(100) NOT NULL,
-    // `type_id` int(11) FOREIGN KEY REFERENCES types(id),
-    // `startTime` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    // `endTime` DATETIME
-    // )";
-
-
-
 }
-
-
-
-
-
-
-
 
 ?>

@@ -15,10 +15,10 @@ $db = mysqli_connect('localhost', 'root', '', 'DB');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $activities_check_query = "SELECT * FROM types";
-    $result = mysqli_query($db, $activities_check_query) or die("database error:". mysqli_error($db));
+    $result = mysqli_query($db, $activities_check_query) or ($errors[] = mysqli_error($db));
     if (count($errors) == 0) {      
-    $types = mysqli_fetch_all ($result, MYSQLI_ASSOC);
-    echo json_encode($types);
+        $types = mysqli_fetch_all ($result, MYSQLI_ASSOC);
+        echo json_encode($types);
     }
     else{
         echo "No types";
