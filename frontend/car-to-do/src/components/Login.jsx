@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react"
 import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button} from '@mui/material'
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Allerts from "./Allerts";
 
 const Login = (props) => {
@@ -10,6 +10,11 @@ const Login = (props) => {
     const [alert, setAlert] = useState('')
 
     const navigate = useNavigate();
+    useEffect(() => {
+        if (props.username) {
+            navigate('/')
+        }
+    })
 
     const handleChangeUsername = (event) => {
         setUsername(event.target.value)
@@ -41,8 +46,6 @@ const Login = (props) => {
             }
         }
     }
-
-    
 
     return (
         <>

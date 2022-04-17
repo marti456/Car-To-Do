@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button} from '@mui/material'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
@@ -11,6 +11,11 @@ const Registration = (props) => {
     const [alert, setAlert] = useState('')
 
     const navigate = useNavigate();
+    useEffect(() => {
+        if (props.username) {
+            navigate('/')
+        }
+    })
 
     const handleChangeUsername = (event) => {
         setUsername(event.target.value)
@@ -50,8 +55,6 @@ const Registration = (props) => {
             }
         }
     }
-
-    
 
     return (
         <>
