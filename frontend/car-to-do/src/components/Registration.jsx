@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button} from '@mui/material'
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
@@ -11,6 +11,11 @@ const Registration = (props) => {
     const [alert, setAlert] = useState('')
 
     const navigate = useNavigate();
+    useEffect(() => {
+        if (props.username) {
+            navigate('/')
+        }
+    })
 
     const handleChangeUsername = (event) => {
         setUsername(event.target.value)
@@ -27,13 +32,13 @@ const Registration = (props) => {
 
     const postData = async () => {
         if (username === '' || password === '' || confirmPass === '') {
-            setAlert('noAllData')
+            setAlert('The form must be completed!')
         }
         else if (password.length < 8) {
-            setAlert('shortPass')
+            setAlert('Password must be 8 or more charecters!')
         }
         else if( password !== confirmPass) {
-            setAlert('notConfirm')
+            setAlert('Password not confirmed!')
         }
         else {
             const content = {
@@ -42,7 +47,7 @@ const Registration = (props) => {
             }
             const response = await axios.post('http://localhost:8080/Car-To-Do/register.php', content)
             if (response.data === 'Username already exists') {
-                setAlert('unsuccessfulReg')
+                setAlert('Username already exists!')
             }
             else {
                 props.makeLogIn(username)
@@ -51,22 +56,21 @@ const Registration = (props) => {
         }
     }
 
-    
-
     return (
         <>
             <CssBaseline />
             <Container maxWidth="xs" style={{marginTop: "8%"}}>
                 <Paper elevation={12} style={{padding: "8%"}}>
-                    <Typography variant="h4" color="textPrimary" align="center">
-                        Sign up
-                    </Typography>
-                    <hr />
-                    <br />
                     <Grid container spacing={3} justify="center">
                         <Grid item xs={12} sm={12} md={12}>
-                            <Allerts alert={alert} />
+                            <Typography variant="h4" color="textPrimary" align="center">Sign up</Typography>
+                            <hr />
                         </Grid>
+                        {alert ? (
+                                    <Grid item xs={12} sm={12} md={12}>
+                                        <Allerts alert={alert} />
+                                    </Grid>
+                        ) : null}
                         <Grid item xs={12} sm={12} md={12}>
                             <TextField
                                 fullWidth

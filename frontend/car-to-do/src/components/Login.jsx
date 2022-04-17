@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react"
 import { Container, CssBaseline, Typography, Paper, Grid, TextField, Button} from '@mui/material'
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Allerts from "./Allerts";
 
 const Login = (props) => {
@@ -10,6 +10,11 @@ const Login = (props) => {
     const [alert, setAlert] = useState('')
 
     const navigate = useNavigate();
+    useEffect(() => {
+        if (props.username) {
+            navigate('/')
+        }
+    })
 
     const handleChangeUsername = (event) => {
         setUsername(event.target.value)
@@ -21,10 +26,7 @@ const Login = (props) => {
 
     const postData = async () => {
         if (username === '' || password === '') {
-            setAlert('noAllData')
-        }
-        else if (password.length < 8) {
-            setAlert('shortPass')
+            setAlert('The form must be completed!')
         }
         else {
             const content = {
@@ -33,7 +35,7 @@ const Login = (props) => {
             }
             const response = await axios.post('http://localhost:8080/Car-To-Do/login.php', content)
             if (response.data === 'Wrong username/password') {
-                setAlert('unsuccessfulLogin')
+                setAlert('Wrong username/password!')
             }
             else {
                 props.makeLogIn(username)
@@ -42,22 +44,21 @@ const Login = (props) => {
         }
     }
 
-    
-
     return (
         <>
             <CssBaseline />
             <Container maxWidth="xs" style={{marginTop: "8%"}}>
                 <Paper elevation={12} style={{padding: "8%"}}>
-                    <Typography variant="h4" color="textPrimary" align="center">
-                        Sign in
-                    </Typography>
-                    <hr />
-                    <br />
                     <Grid container spacing={3} justify="center">
                         <Grid item xs={12} sm={12} md={12}>
-                            <Allerts alert={alert} />
+                            <Typography variant="h4" color="textPrimary" align="center">Sign in</Typography>
+                            <hr />
                         </Grid>
+                        {alert ? (
+                                <Grid item xs={12} sm={12} md={12}>
+                                    <Allerts alert={alert} />
+                                </Grid>
+                        ) : null}
                         <Grid item xs={12} sm={12} md={12}>
                             <TextField
                                 fullWidth
