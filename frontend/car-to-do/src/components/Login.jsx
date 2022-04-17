@@ -26,10 +26,7 @@ const Login = (props) => {
 
     const postData = async () => {
         if (username === '' || password === '') {
-            setAlert('noAllData')
-        }
-        else if (password.length < 8) {
-            setAlert('shortPass')
+            setAlert('The form must be completed!')
         }
         else {
             const content = {
@@ -38,7 +35,7 @@ const Login = (props) => {
             }
             const response = await axios.post('http://localhost:8080/Car-To-Do/login.php', content)
             if (response.data === 'Wrong username/password') {
-                setAlert('unsuccessfulLogin')
+                setAlert('Wrong username/password!')
             }
             else {
                 props.makeLogIn(username)
@@ -52,15 +49,16 @@ const Login = (props) => {
             <CssBaseline />
             <Container maxWidth="xs" style={{marginTop: "8%"}}>
                 <Paper elevation={12} style={{padding: "8%"}}>
-                    <Typography variant="h4" color="textPrimary" align="center">
-                        Sign in
-                    </Typography>
-                    <hr />
-                    <br />
                     <Grid container spacing={3} justify="center">
                         <Grid item xs={12} sm={12} md={12}>
-                            <Allerts alert={alert} />
+                            <Typography variant="h4" color="textPrimary" align="center">Sign in</Typography>
+                            <hr />
                         </Grid>
+                        {alert ? (
+                                <Grid item xs={12} sm={12} md={12}>
+                                    <Allerts alert={alert} />
+                                </Grid>
+                        ) : null}
                         <Grid item xs={12} sm={12} md={12}>
                             <TextField
                                 fullWidth
