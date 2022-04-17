@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $activity_name = mysqli_real_escape_string($db, $_POST['activity_name']);
     $description = mysqli_real_escape_string($db, $_POST['description']);
     $type = mysqli_real_escape_string($db, $_POST['type']);
-    $endTime = mysqli_real_escape_string($db, $_POST['type']);
+    $endTime = mysqli_real_escape_string($db, $_POST['end_time']);
 
     //find if user and activity type are existing
     $type_check_query = "SELECT * FROM types WHERE type_name='$type' LIMIT 1";
