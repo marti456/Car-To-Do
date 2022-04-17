@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               VALUES('$username', '$password')";
     mysqli_query($db, $query);
     $_SESSION['username'] = $username;
-    $_SESSION['success'] = "You are now logged in";
+    $_SESSION['success'] = "You are now registred in";
     //header('location: index.php');
 
     echo "Added new user";

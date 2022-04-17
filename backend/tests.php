@@ -17,14 +17,44 @@ final class tests extends TestCase
         $this->assertSame('', mysqli_error($db));
         $exists_activities = mysqli_query($db, "select * from activities");
         $this->assertSame('', mysqli_error($db));
+    }
 
+    public function testRegister(): void
+    {
+        $db = mysqli_connect('localhost', 'root', '', 'DB');
+        $url = 'http://localhost:8080/Car-To-Do/register.php';
+        $json = json_encode(['username' => 'Test', 'password' => '12345678']);
 
-        // if($exists !== FALSE)
-        // {
-        // echo("This table exists");
-        // }else{
-        // echo("This table doesn't exist");
-        // }
+        $options = ['http' => [
+            'method' => 'POST',
+            'header' => 'Content-type:application/json',
+            'content' => $json
+        ]];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+        $this->assertSame("Added new user", $response);
+        
+        $options = ['http' => [
+            'method' => 'POST',
+            'header' => 'Content-type:application/json',
+            'content' => $json
+        ]];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+        $this->assertSame("Username already exists", $response);
+        
+        $last_id = mysqli_insert_id($db);
+        echo $last_id;
+        $url = 'http://localhost:8080/Car-To-Do/deleteActivity.php';
+        $json = json_encode(['activity_id' => $last_id]);
+        $options = ['http' => [
+            'method' => 'POST',
+            'header' => 'Content-type:application/json',
+            'content' => $json
+        ]];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+        $this->assertSame("Activity deleted successfully", $response);
 
     }
 }
