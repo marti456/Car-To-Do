@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react"
 import axios from 'axios';
 import ActivityForm from './ActivityForm';
+import Activity from './Activity';
 
 const Activities = (props) => {
     
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false)
     const [types, setTypes] = useState(null)
+    const [activities, setActivities] = useState([])
     const handleOpen = async () => {
         await getTypes()
         setOpen(true) 
@@ -24,7 +26,18 @@ const Activities = (props) => {
         if (!props.username) {
             navigate('/login')
         }
+        
     })
+
+    const getActivities = async () => {
+        const response = await axios.post('http://localhost:8080/Car-To-Do/getActivities.php', { username: props.username })
+        setActivities(response.data)
+    }
+
+    useEffect(() => {
+        getActivities()
+    }, [])
+    
 
     return (
         <>
@@ -38,16 +51,14 @@ const Activities = (props) => {
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <ActivityForm handleClose={handleClose} types={types} username={props.username}/>
+                        <ActivityForm handleClose={handleClose} types={types} username={props.username} getActivities={getActivities}/>
                     </Modal>
                 </Grid>
             </Grid>
-            <Grid container spacing={1} justifyContent="flex-start" style={{marginTop: "1%", padding: "1%"}}>
-                <Grid item>
-                    <Button variant="contained" color="success">
-                        Add activity
-                    </Button>
-                </Grid>
+            <Grid container spacing={4} justifyContent="flex-start" style={{padding: "3%"}}>
+                { 
+                    activities.map(activity => <Activity activity={activity} key={activity["id"]}/>) 
+                }
             </Grid>
         </>
     );

@@ -8,7 +8,6 @@ import axios from 'axios';
 import Allerts from "./Allerts";
 
 const ActivityForm = React.forwardRef((props, ref) => {
-
     const [name, setName] = useState('')
     const [description, setDescriptio] = useState('')
     const [type, setType] = useState('')
@@ -45,6 +44,7 @@ const ActivityForm = React.forwardRef((props, ref) => {
             }
             else {
                 props.handleClose()
+                await props.getActivities()
             }
         }
     }
