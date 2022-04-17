@@ -1,14 +1,25 @@
 import { Typography, Grid, Card, CardContent, CardHeader, IconButton, Chip, Stack } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel';
+import axios from 'axios';
+
 const Activity = (props) => {
-    console.log(props.activity)
+
+    const deleteActivity = async () => {
+        console.log(props.activity["id"])
+        const response = await axios.post('http://localhost:8080/Car-To-Do/deleteActivity.php', { activity_id: props.activity["id"] })
+        if (response.data === "Activity deleted successfully") {
+            props.getActivities()
+        }
+        console.log(response)
+    }
+
     return (
         <>
             <Grid item xs={12} sm={6} md={3}>
                 <Card>
                         <CardHeader
                         action={
-                        <IconButton aria-label="settings">
+                        <IconButton aria-label="settings" onClick={deleteActivity}>
                             <CancelIcon />
                         </IconButton>
                         }

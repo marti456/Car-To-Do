@@ -39,7 +39,7 @@ const ActivityForm = React.forwardRef((props, ref) => {
                 end_time: endTime.getTime() / 1000
             }
             const response = await axios.post('http://localhost:8080/Car-To-Do/createActivity.php', content)
-            if (response.data === "This type of activity doesn't exist") {
+            if (response.data === "This type of activity doesn't exist" || response.data === "This user doesn't exist") {
                 setAlert(response.data)
             }
             else {

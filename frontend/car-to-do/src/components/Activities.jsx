@@ -34,8 +34,8 @@ const Activities = (props) => {
         setActivities(response.data)
     }
 
-    useEffect(() => {
-        getActivities()
+    useEffect( async () => {
+        await getActivities()
     }, [])
     
 
@@ -57,7 +57,7 @@ const Activities = (props) => {
             </Grid>
             <Grid container spacing={4} justifyContent="flex-start" style={{padding: "3%"}}>
                 { 
-                    activities.map(activity => <Activity activity={activity} key={activity["id"]}/>) 
+                    activities.map(activity => <Activity activity={activity} key={activity["id"]} getActivities={getActivities}/>) 
                 }
             </Grid>
         </>
