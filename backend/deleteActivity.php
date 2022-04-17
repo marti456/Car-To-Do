@@ -4,6 +4,8 @@ header("Access-Control-Allow-Headers: *");
 $rest_json = file_get_contents("php://input");
 $_POST = json_decode($rest_json, true);
 
+$db = mysqli_connect('localhost', 'root', '', 'DB');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $activity_id = mysqli_real_escape_string($db, $_POST["activity_id"]);
     //DELETE FROM table_name WHERE condition;
