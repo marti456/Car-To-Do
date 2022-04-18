@@ -58,6 +58,7 @@ final class tests extends TestCase
 
     }
 
+
     public function testCreatingActivity(): void
     {
         $db = mysqli_connect('localhost', 'root', '', 'DB');
