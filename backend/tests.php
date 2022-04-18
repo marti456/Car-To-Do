@@ -57,4 +57,21 @@ final class tests extends TestCase
         $this->assertSame("Activity deleted successfully", $response);
 
     }
+
+
+    public function testCreatingActivity(): void
+    {
+        $db = mysqli_connect('localhost', 'root', '', 'DB');
+        $url = 'http://localhost:8080/Car-To-Do/createActivity.php';
+        $json = json_encode(['username' => 'Test', 'activity_name' => 'test activity', 'activity_name' => 'test activity', 'description' => 'test description', 'type' => 'Others', 'end_time' => "61234567"]);
+
+        $options = ['http' => [
+            'method' => 'POST',
+            'header' => 'Content-type:application/json',
+            'content' => $json
+        ]];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+        $this->assertSame("Activity added successfully", $response);
+    }
 }
