@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query = "INSERT INTO activities (user_id, name, description, type_id, endTime ) 
         VALUES('$username_id', '$activity_name', '$description', '$type_id', FROM_UNIXTIME('$endTime'))";
         mysqli_query($db, $query);
+        echo "Activity added successfully";
     }
 }
 
